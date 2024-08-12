@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\DokumentasiController;
 use App\Http\Controllers\Api\KegiatanController;
+use App\Http\Controllers\Api\PendaftaranController;
 use App\Http\Controllers\Api\UserController;
 use App\Models\Kegiatan;
 use Illuminate\Http\Request;
@@ -17,8 +18,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-Route::post('/daftar', []);
 
 Route::post('/login', [App\Http\Controllers\Api\Auth\LoginController::class, 'index']);
 
@@ -48,5 +47,13 @@ Route::middleware('auth:api', 'setUserStatus')->group(function () {
         Route::post('/edit/{id}', [DokumentasiController::class, 'editDokumentasi'])->middleware('permission:dokumentasi.edit');
         Route::get('/tampilkan/{id}', [DokumentasiController::class, 'tampilDokumentasi'])->middleware('permission:dokumentasi.index');
         Route::delete('/hapus/{id}', [DokumentasiController::class, 'hapusDokumentasi'])->middleware('permission:dokumentasi.delete');
+    });
+
+    Route::prefix('pendaftar')->group(function () {
+        Route::get('/', [PendaftaranController::class, 'semuaPendaftar'])->middleware('permission:pendaftaran.index');
+        Route::post('/tambah', [PendaftaranController::class, 'tambahPendaftar']);
+        Route::post('/edit/{id}', [PendaftaranController::class, 'editPendaftar']);
+        Route::get('/tampilkan/{id}', [PendaftaranController::class, 'tampilPendaftar'])->middleware('permission:pendaftaran.index');
+        Route::delete('/hapus/{id}', [PendaftaranController::class, 'hapusPendaftar'])->middleware('permission:pendaftaran.delete');
     });
 });

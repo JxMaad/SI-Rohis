@@ -42,6 +42,12 @@ class RoleTableSeeder extends Seeder
             'name' => 'pengurus_kegiatan',
             'guard_name' => 'api'
         ]);
+
+        Role::create([
+            'name' => 'pengurus_dokumentasi',
+            'guard_name' => 'api'
+        ]);
+
         Role::create([
             'name' => 'pengurus_rohis',
             'guard_name' => 'api'

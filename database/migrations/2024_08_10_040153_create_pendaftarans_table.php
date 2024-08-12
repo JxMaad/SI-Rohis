@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('kelas');
             $table->string('motto_hidup');
             $table->string('alasan_masuk');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

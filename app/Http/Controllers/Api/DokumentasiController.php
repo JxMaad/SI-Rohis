@@ -12,7 +12,7 @@ class DokumentasiController extends Controller
     public function semuaDokumentasi()
     {
         $dokumentasis = Dokumentasi::when(request()->search, function ($dokumentasis) {
-            $dokumentasis = $dokumentasis->where('judul', 'like', '%' . request()->search . '%');
+            $dokumentasis = $dokumentasis->where('judul', 'tanggal_upload'. request()->search . '%');
         })->latest()->paginate(10);
 
         //append query string to pagination links

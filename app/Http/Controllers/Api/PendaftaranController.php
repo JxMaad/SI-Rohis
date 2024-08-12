@@ -3,37 +3,38 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Kegiatan;
+use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-class KegiatanController extends Controller
+class PendaftaranController extends Controller
 {
-    public function semuaKegiatan()
+    public function semuaPendaftar()
     {
-        $kegiatans = Kegiatan::when(request()->search, function ($kegiatans) {
-            $kegiatans = $kegiatans->where('judul', 'tanggal_kegiatan'. request()->search . '%');
+        $pendaftarans = Pendaftaran::when(request()->search, function ($pendaftarans) {
+            $pendaftarans = $pendaftarans->where('nama', 'kelas' . request()->search . '%');
         })->latest()->paginate(10);
 
         //append query string to pagination links
-        $kegiatans->appends(['search' => request()->search]);
+        $pendaftarans->appends(['search' => request()->search]);
 
         // Mengembalikan data pengguna dalam bentuk JSON
         return response()->json([
             'status' => 'success',
-            'message' => 'data kegiatan berhasil ditampilkan',
-            'data' => $kegiatans
+            'message' => 'data pendaftar berhasil ditampilkan',
+            'data' => $pendaftarans
         ], 201);
     }
 
-    public function tambahKegiatan(Request $request)
+    public function tambahPendaftar(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'judul' => 'required',
-            'deskripsi' => 'required',
-            'tanggal_kegiatan'  => 'required',
-            'image' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            'nama'  => 'required',
+            'kelas' => 'required',
+            'motto_hidup'   => 'required',
+            'alasan_masuk'  => 'required',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -47,41 +48,43 @@ class KegiatanController extends Controller
         // Simpan gambar ke storage jika ada
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $image->storeAs('public/kegiatan', $image->hashName());
+            $image->storeAs('public/pendaftar', $image->hashName());
             $imageName = $image->hashName();
         }
 
         try {
             // Create user
-            $kegiatan = Kegiatan::create([
-                'judul'     => $request->input('judul'),
-                'deskripsi'    => $request->input('deskripsi'),
-                'tanggal_kegiatan' => $request->input('tanggal_kegiatan'),
+            $pendaftaran = Pendaftaran::create([
+                'nama'     => $request->input('nama'),
+                'kelas'    => $request->input('kelas'),
+                'motto_hidup' => $request->input('motto_hidup'),
+                'alasan_masuk'  => $request->input('alasan_masuk'),
                 'image'    => $imageName,
             ]);
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'kegiatan berhasil ditambahkan',
-                'data' => $kegiatan
+                'message' => 'pendaftaran berhasil ditambahkan',
+                'data' => $pendaftaran
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'kegiatan gagal ditambahkan',
+                'message' => 'pendaftaran gagal ditambahkan',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
 
-    public function editKegiatan(Request $request, $id)
+    public function editPendaftar(Request $request, $id)
     {
-        $kegiatan = Kegiatan::findOrFail($id);
+        $pendaftaran = Pendaftaran::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'judul' => 'required',
-            'deskripsi' => 'required',
-            'tanggal_kegiatan'  => 'required',
+            'nama'  => 'required',
+            'kelas' => 'required',
+            'motto_hidup'   => 'required',
+            'alasan_masuk'  => 'required',
             'image' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ]);
 
@@ -95,88 +98,91 @@ class KegiatanController extends Controller
 
         if ($request->file('image')) {
             // Remove old image if exists
-            Storage::disk('local')->delete('public/kegiatan/' . basename($kegiatan->image));
+            Storage::disk('local')->delete('public/pendaftar/' . basename($pendaftaran->image));
 
             // Save the new image and get the full path
             $image = $request->file('image');
-            $imageName = $image->storeAs('kegiatan', $image->hashName(), 'public');
+            $imageName = $image->storeAs('pendaftar', $image->hashName(), 'public');
 
-            $kegiatan->update([
-                'judul'     => $request->input('judul'),
-                'deskripsi'    => $request->input('deskripsi'),
-                'tanggal_kegiatan' => $request->input('tanggal_kegiatan'),
+
+            $pendaftaran->update([
+                'nama'     => $request->input('nama'),
+                'kelas'    => $request->input('kelas'),
+                'motto_hidup' => $request->input('motto_hidup'),
+                'alasan_masuk'  => $request->input('alasan_masuk'),
                 'image'    => $imageName,
             ]);
         } else {
-            $kegiatan->update([
-                'judul'     => $request->input('judul'),
-                'deskripsi'    => $request->input('deskripsi'),
-                'tanggal_kegiatan' => $request->input('tanggal_kegiatan'),
+            $pendaftaran->update([
+                'nama'     => $request->input('nama'),
+                'kelas'    => $request->input('kelas'),
+                'motto_hidup' => $request->input('motto_hidup'),
+                'alasan_masuk'  => $request->input('alasan_masuk'),
             ]);
         }
 
         try {
-            if ($kegiatan->wasChanged())
+            if ($pendaftaran->wasChanged())
                 return response()->json([
                     'status' => 'success',
-                    'message' => 'kegiatan berhasil diedit',
-                    'data' => $kegiatan
+                    'message' => 'pendaftaran berhasil diedit',
+                    'data' => $pendaftaran
                 ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'kegiatan gagal diedit',
+                'message' => 'pendaftaran gagal diedit',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
 
-    public function tampilKegiatan(Request $request, $id)
+    public function tampilPendaftar(Request $request, $id)
     {
-        $kegiatan = Kegiatan::find($request->id);
+        $pendaftaran = Pendaftaran::find($request->id);
 
         try {
             return response()->json([
                 'status' => 'success',
-                'message' => 'kegiatan berhasil ditampilkan',
-                'data' => $kegiatan
+                'message' => 'pendaftar berhasil ditampilkan',
+                'data' => $pendaftaran
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'kegiatan gagal ditampilkan',
+                'message' => 'pendaftar gagal ditampilkan',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
 
-    public function hapusKegiatan($id)
+    public function hapusPendaftar($id)
     {
-        $kegiatan = Kegiatan::find($id);
+        $pendaftaran = Pendaftaran::find($id);
 
-        if (!$kegiatan) {
+        if (!$pendaftaran) {
             // Jika kegiatan tidak ditemukan, kembalikan respons JSON
             return response()->json([
                 'status' => 'error',
-                'message' => 'kegiatan tidak ditemukan!'
+                'message' => 'pendaftar tidak ditemukan!'
             ], 404);
         }
 
-        Storage::disk('local')->delete('public/kegiatan/' . basename($kegiatan->image));
+        Storage::disk('local')->delete('public/pendaftar/' . basename($pendaftaran->image));
 
         // Hapus kegiatan dari database
-        if ($kegiatan->delete()) {
+        if ($pendaftaran->delete()) {
             // Kembalikan respons berhasil dalam bentuk JSON
             return response()->json([
                 'status' => 'success',
-                'message' => 'kegiatan berhasil dihapus!'
+                'message' => 'pendaftar berhasil dihapus!'
             ], 200);
         }
 
         // Jika gagal menghapus, kembalikan respons gagal dalam bentuk JSON
         return response()->json([
             'status' => 'error',
-            'message' => 'kegiatan gagal dihapus!'
+            'message' => 'pendaftar gagal dihapus!'
         ], 500);
     }
 }
