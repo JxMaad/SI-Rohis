@@ -37,17 +37,17 @@ class PermissionTableSeeder extends Seeder
 
         foreach ($roles as $role) {
             // Cek peran dan tetapkan izin
-            if ($role->name === 'pembina') {
+            if ($role->name === 'Pembina') {
                 $role->syncPermissions(['users.index','kegiatan.index','dokumentasi.index']);
-            } elseif ($role->name === 'mentor') {
-                $role->syncPermissions(['users.index','kegiatan.index','kegiatan.create','kegiatan.edit','dokumentasi.index','dokumentasi.create','dokumentasi.edit']);
-            } elseif ($role->name === 'alumni') {
+            } elseif ($role->name === 'Mentor') {
+                $role->syncPermissions(['users.index','kegiatan.index','kegiatan.create','kegiatan.edit','kegiatan.delete','dokumentasi.index','dokumentasi.create','dokumentasi.edit','dokumentasi.delete']);
+            } elseif ($role->name === 'Alumni') {
                 $role->syncPermissions(['users.index','kegiatan.index','dokumentasi.index']);
-            } elseif ($role->name === 'bph') {
+            } elseif ($role->name === 'Bph') {
                 $role->syncPermissions(['users.index','users.create','users.edit','users.delete','kegiatan.index','kegiatan.create','kegiatan.edit','kegiatan.delete','dokumentasi.index','dokumentasi.create','dokumentasi.edit','dokumentasi.delete']);
-            } elseif ($role->name === 'pengurus_kegiatan') {
+            } elseif ($role->name === 'Pengurus_kegiatan') {
                 $role->syncPermissions(['users.index','kegiatan.index','kegiatan.create','kegiatan.edit','kegiatan.delete','dokumentasi.index','dokumentasi.create','dokumentasi.edit']);
-            } elseif ($role->name === 'pengurus_rohis') {
+            } elseif ($role->name === 'Pengurus_rohis') {
                 $role->syncPermissions(['users.index','kegiatan.index','dokumentasi.index']);
             }
         }

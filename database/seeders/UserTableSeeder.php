@@ -19,7 +19,7 @@ class UserTableSeeder extends Seeder
         $dummyImage = 'Dummy.png';
 
         User::create([
-            'name' => 'admin',
+            'nama' => 'admin',
             'kelas' => '-',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('12345'),
@@ -31,7 +31,7 @@ class UserTableSeeder extends Seeder
         // Misalnya, Anda bisa menggunakan middleware atau event listener untuk mengatur status online dan offline        
 
         //assign permission to role
-        $role = Role::whereName('admin')->first();
+        $role = Role::whereName('Admin')->first();
         $permissions = Permission::all();
 
         $role->syncPermissions($permissions);

@@ -52,7 +52,7 @@ class LoginController extends Controller
         return response()->json([
             'success' => true,
             'user_id' => $user->id, // Tambahkan user_id ke dalam respons
-            'user' => $user->only(['name', 'email']),
+            'user' => $user->only(['nama', 'email']),
             'permission' => $user->getPermissionArray(),
             'roles' => $roles,
             'token' => $token

@@ -24,7 +24,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nama',
         'kelas',
         'email',
         'password',
@@ -54,13 +54,23 @@ class User extends Authenticatable implements JWTSubject
 
     public function getPermissionArray(){
         return $this->getAllPermissions()->mapWithKeys(function($pr){
-        return [$pr['name'] => true];
+        return [$pr['nama'] => true];
         });
     }
 
     public function kegiatan() 
     {
         return $this->hasMany(Kegiatan::class);
+    }
+
+    public function dokumentasi()
+    {
+        return $this->hasMany(Dokumentasi::class);
+    }
+
+    public function daftar()
+    {
+        return $this->hasMany(Pendaftaran::class);
     }
 
     protected function image(): Attribute

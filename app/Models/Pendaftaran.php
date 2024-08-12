@@ -2,19 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Dokumentasi extends Model
+class Pendaftaran extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'judul',
-        'keterangan_dokumentasi',
-        'tanggal_upload',
-        'link_gdrive',
+        'nama',
+        'kelas',
+        'motto_hidup',
+        'alasan_masuk',
     ];
 
     public function user() 

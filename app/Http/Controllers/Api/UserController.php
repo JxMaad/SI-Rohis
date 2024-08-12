@@ -13,7 +13,7 @@ class UserController extends Controller
     public function semuaUser()
     {
         $users = User::when(request()->search, function ($users) {
-            $users = $users->where('name', 'like', '%' . request()->search . '%');
+            $users = $users->where('nama', 'like', '%' . request()->search . '%');
         })->with('roles')->latest()->paginate(10);
 
         //append query string to pagination links
@@ -30,7 +30,7 @@ class UserController extends Controller
     public function tambahUser(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name'         => 'required',
+            'nama'         => 'required',
             'kelas'        => 'required',
             'email'        => 'required|unique:users',
             'password'     => 'required|confirmed',
@@ -61,9 +61,10 @@ class UserController extends Controller
         try {
             // Create user
             $user = User::create([
-                'name'     => $request->name,
-                'email'    => $request->email,
-                'password' => bcrypt($request->password),
+                'nama'     => $request->input('nama'),
+                'kelas'    => $request->input('kelas'),
+                'email'    => $request->input('email'),
+                'password' => bcrypt($request->input('password')),
                 'image'    => $imageName,
             ]);
 
@@ -90,7 +91,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'name'         => 'required',
+            'nama'         => 'required',
             'kelas'        => 'required',
             'email'        => 'required|unique:users',
             'password'     => 'required|confirmed',
@@ -106,16 +107,20 @@ class UserController extends Controller
         }
 
         // Mengupdate data user lainnya
-        if ($request->filled('name')) {
-            $user->name = $request->name;
+        if ($request->filled('nama')) {
+            $user->nama = $request->input('nama');
+        }
+
+        if ($request->filled('kelas')) {
+            $user->kelas = $request->input('kelas');
         }
 
         if ($request->filled('email')) {
-            $user->email = $request->email;
+            $user->email = $request->input('email');
         }
 
         if ($request->filled('password')) {
-            $user->password = bcrypt($request->password);
+            $user->password = bcrypt($request->input('password'));
         }
 
         // Default dummy image name
