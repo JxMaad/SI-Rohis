@@ -72,5 +72,6 @@ class Kernel extends HttpKernel
         'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
         'setUserStatus' => \App\Http\Middleware\SetUserStatus::class,
+        'prevent-back-button' => \App\Http\Middleware\PreventBackButtonMiddleware::class,
     ];
 }

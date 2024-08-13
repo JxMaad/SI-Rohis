@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [App\Http\Controllers\Api\Auth\LoginController::class, 'index']);
 
+Route::post('/daftar', [PendaftaranController::class, 'tambahPendaftar']);
+
 Route::middleware('auth:api', 'setUserStatus')->group(function () {
 
     Route::post('/logout', [App\Http\Controllers\Api\Auth\LoginController::class, 'logout']);
@@ -51,8 +53,7 @@ Route::middleware('auth:api', 'setUserStatus')->group(function () {
 
     Route::prefix('pendaftar')->group(function () {
         Route::get('/', [PendaftaranController::class, 'semuaPendaftar'])->middleware('permission:pendaftaran.index');
-        Route::post('/tambah', [PendaftaranController::class, 'tambahPendaftar']);
-        Route::post('/edit/{id}', [PendaftaranController::class, 'editPendaftar']);
+        Route::post('/edit/{id}', [PendaftaranController::class, 'editPendaftar'])->middleware('permission:pendaftaran.edit');
         Route::get('/tampilkan/{id}', [PendaftaranController::class, 'tampilPendaftar'])->middleware('permission:pendaftaran.index');
         Route::delete('/hapus/{id}', [PendaftaranController::class, 'hapusPendaftar'])->middleware('permission:pendaftaran.delete');
     });
