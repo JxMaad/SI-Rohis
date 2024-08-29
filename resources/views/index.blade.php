@@ -1,76 +1,9 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    
-    <title>Rodamu</title>
-    <!-- CSS Connection -->
-    <link href="{{ asset('tampilan/css/output.css')}}" rel="stylesheet">
-    <!-- End CSS -->
-    
-    <style>
-        * {
-            scroll-behavior: smooth;
-        }
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-    </style>
-
-    <!-- Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- End Font -->
-</head>
-<body>
-    <!-- Navbar untuk Rohis -->
-    <div>
-        <header class="absolute bg-transparent flex items-center top-0 w-full z-10">
-            <div class="container">
-                <div class="flex items-center justify-between relative">
-                    <div class="px-4">
-                        <a href="#home" class="text-primary lg:text-2xl md:text-xl font-semibold pt-7 text-transparent bg-clip-text bg-white text-lg flex items-center justify-center py-6 gap-3">
-                            <img src="{{ asset('tampilan/img/assests/Logo_rohis.png') }}" alt="MAMANG APIT" class="w-12" />
-                            <h1>Rodamu</h1>
-                        </a>
-                    </div>
-                    <div class="flex px-4 items-center">
-                        <button class="block absolute right-5 lg:hidden" id="hamburger-menu" type="button">
-                            <span class="hamburger-menu rounded transition duration-300 ease-in-out origin-top-left"></span>
-                            <span class="hamburger-menu rounded transition duration-300 ease-in-out"></span>
-                            <span class="hamburger-menu rounded transition duration-300 ease-in-out origin-bottom-left"></span>
-                        </button>
-                        <nav id="nav-menu" class="hidden absolute bg-transparent bg-white border shadow-lg top-full rounded-sm max-w-full w-full right-1 lg:block lg:static lg:bg-transparent lg:max-w-full lg:border-none lg:shadow-none lg:rounded-none lg:backdrop-blur-0">
-                            <ul class="block font-bold lg:flex bg-primary text-white p-3 lg:bg-transparent lg:p-0">
-                                <li class="group lg:my-3">
-                                    <a href="#home" class="mx-8 rounded group-hover:text-primary text-md">Home</a>
-                                </li>
-                                <li class="group my-3">
-                                    <a href="#about" class="mx-8 rounded group-hover:text-primary text-md">About</a>
-                                </li>
-                                <li class="group my-3">
-                                    <a href="#gallery" class="mx-8 rounded group-hover:text-primary text-md">Gallery</a>
-                                </li>
-                                <li class="group my-3">
-                                    <a href="#projects" class="mx-8 rounded group-hover:text-primary text-md">Project</a>
-                                </li>
-                                <li class="group lg:my-3">
-                                    <a href="#contact" class="mx-8 rounded group-hover:text-primary text-md">Contact</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </header>
-    </div>
+<x-layout>
+   <x-navbar/>
     <!-- End Navbar untuk Rohis -->
 
     <!-- Section Hero Untuk Rohis Darrul Muttaqein -->
-    <div class="bg-cover bg-center h-screen" style="background-image: url('{{ asset('tampilan/img/assests/Background-Rohis.png') }}')">
+    <div class="bg-cover bg-center min-h-screen" style="background-image: url('{{ asset('tampilan/img/assests/Background-Rohis.png') }}')">
         <section id="home" class="pt-32 lg:pt-36 pb-32">
             <div class="container">
                 <div class="flex flex-wrap items-center justify-center">
@@ -99,7 +32,7 @@
     <section id="about" class="pt-20 pb-20">
         <div class="container">
             <div class="text-center">
-                <h2 class="font-semibold text-lg md:text-2xl lg:text-3xl">About Us</h2>
+                <h2 class="font-semibold text-xl md:text-2xl lg:text-3xl">About <span class="text-primary">Us</span></h2>
                 <h3 class="text-md text-abu font-medium my-3 md:text-xl lg:text-2xl max-w-lg mx-auto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus, porro?</h3>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10 lg:grid-cols-3 place-items-center border">
@@ -161,15 +94,28 @@
     <!-- End Section About Untuk Rohis Darrul Muttaqein -->
 
     <!-- Gallery Rohis -->
-    <section id="gallery" class="pt-12">
+    <section id="gallery" class="pt-12 pb-28">
         <div class="container">
-            <div class="px-4">
-                <h1 class="text-center font-bold text-lg">Our <span class="text-primary">Gallery</span></h1>
+            <div class="px-4 mb-10">
+                <h1 class="text-center font-bold text-xl md:text-3xl">Our <span class="text-primary">Gallery</span></h1>
             </div>
-            <div class="grid grid-cols-1 px-4"></div>
+            <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-5 px-4">
+                <div class="object-cover overflow-hidden rounded-md mt-5">
+                    <img src="./tampilan/img/assests/rohis-1.jpg" alt="image" class="w-full">
+                </div>
+                <div class="object-cover overflow-hidden rounded-md mt-5">
+                    <img src="./tampilan/img/assests/rohis-4.jpg" alt="image" class="w-full">
+                </div>
+                <div class="object-cover overflow-hidden rounded-md mt-5">
+                    <img src="./tampilan/img/assests/rohis-3.jpg" alt="image" class="w-full">
+                </div>
+                <div class="object-cover overflow-hidden rounded-md mt-5">
+                    <img src="./tampilan/img/assests/rohis-2.jpg" alt="image" class="w-full">
+                </div>
+            </div>
         </div>
     </section>
     <!-- End Gallery Rohis -->
-</body>
-<script src="{{ asset('tampilan/js/index.js') }}"></script>
-</html>
+    <x-footer/>
+</x-layout>
+    <!-- Navbar untuk Rohis -->
